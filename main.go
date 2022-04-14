@@ -17,6 +17,8 @@ func main() {
 
 	router := gin.New()
 
+	bootstrap.SetupDB()
+
 	bootstrap.SetupRoute(router)
 
 	router.Run(":" + c.GetString("app.port"))
