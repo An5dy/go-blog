@@ -1,17 +1,15 @@
 package main
 
 import (
-	"net/http"
+	"go-blog/bootstrap"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	router := gin.New()
-	router.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
-			"hello": "world!",
-		})
-	})
+
+	bootstrap.SetupRoute(router)
+
 	router.Run()
 }
