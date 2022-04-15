@@ -18,3 +18,9 @@ type IndexCategory struct {
 	Title    string `json:"title"`
 	ParentId uint64 `json:"parent_id"`
 }
+
+type TreeNode struct {
+	ID       uint64     `json:"id"`
+	Title    string     `json:"title"`
+	Children []TreeNode `json:"children,omitempty"`
+}

@@ -6,7 +6,7 @@ import (
 )
 
 type CategoryService interface {
-	GetCategoryTree() []category.IndexCategory
+	GetCategoryTree() []category.TreeNode
 }
 
 type categoryService struct {
@@ -19,7 +19,7 @@ func NewCategoryService() CategoryService {
 	}
 }
 
-func (cs *categoryService) GetCategoryTree() []category.IndexCategory {
+func (cs *categoryService) GetCategoryTree() []category.TreeNode {
 	categories := cs.categoryRepository.All()
-	return categories
+	return cs.categoryRepository.GetTree(categories, 0)
 }
