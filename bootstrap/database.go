@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"go-blog/app/models/article"
+	"go-blog/app/models/category"
 	"go-blog/pkg/config"
 	"go-blog/pkg/database"
 	"time"
@@ -50,5 +51,8 @@ func SetupDB() {
 	// 设置每个链接的过期时间
 	database.SQLDB.SetConnMaxLifetime(time.Duration(config.GetInt("database.mysql.max_life_seconds")) * time.Second)
 
-	database.DB.AutoMigrate(&article.Article{})
+	database.DB.AutoMigrate(
+		&article.Article{},
+		&category.Category{},
+	)
 }

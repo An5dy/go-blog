@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"go-blog/app/http/controllers"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -15,5 +16,13 @@ func RegisterAPIRoutes(router *gin.Engine) {
 				"hello": "world!",
 			})
 		})
+		cg := v1.Group("category")
+		{
+			cc := controllers.NewCategoryController()
+			cg.GET("", cc.Index)
+			cg.POST("", cc.Store)
+			cg.PUT("/:id", cc.Update)
+			cg.DELETE("/:id", cc.Delete)
+		}
 	}
 }
