@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"go-blog/app/requests"
 	"go-blog/app/services"
 	"go-blog/pkg/response"
 
@@ -22,7 +23,11 @@ func (cc *CategoryController) Index(c *gin.Context) {
 }
 
 func (cc *CategoryController) Store(c *gin.Context) {
-
+	request := &requests.StoreCategoryRequest{}
+	if ok := requests.Validate(c, request); !ok {
+		return
+	}
+	response.JSON(c, request)
 }
 
 func (cc *CategoryController) Update(c *gin.Context) {

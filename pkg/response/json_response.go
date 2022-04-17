@@ -95,11 +95,11 @@ func Abort422(c *gin.Context, errors map[string][]string, message ...string) {
 	})
 }
 
-// Failed 请求失败
-func Failed(c *gin.Context, message ...string) {
+// Abort500 服务器内部错误
+func Abort500(c *gin.Context, message ...string) {
 	c.AbortWithStatusJSON(http.StatusInternalServerError, ResponseFormatterParams{
 		Success: false,
-		Message: defaultMessage("请求是吧。", message...),
+		Message: defaultMessage("服务器内部错误，请稍后再试。", message...),
 	})
 }
 
