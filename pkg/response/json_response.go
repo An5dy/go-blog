@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 // ResponseFormatterParams 响应数据格式
@@ -101,6 +102,21 @@ func Abort500(c *gin.Context, message ...string) {
 		Success: false,
 		Message: defaultMessage("服务器内部错误，请稍后再试。", message...),
 	})
+}
+
+// Error 响应 404 或 422
+func Error(c *gin.Context, err error, message ...string) {
+	switch err {
+	case gorm.ErrRecordNotFound:
+		Abort404(c)
+		return
+	default:
+		logger.LogIf(err)
+		c.JSON(http.StatusUnprocessableEntity, ResponseFormatterParams{
+			Message: defaultMessage("请求处理失败，请查看 error 的值。", message...),
+			Error:   err.Error(),
+		})
+	}
 }
 
 // defaultMessage 默认消息

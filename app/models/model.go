@@ -6,7 +6,7 @@ import (
 )
 
 // PrimaryKey 表主键
-type ID struct {
+type PrimaryKey struct {
 	ID uint64 `gorm:"column:id;primaryKey;autoIncrement;comment:主键" json:"id,omitempty"`
 }
 

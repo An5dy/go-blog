@@ -3,7 +3,7 @@ package article
 import "go-blog/app/models"
 
 type Article struct {
-	models.ID
+	models.PrimaryKey
 	IsPublished bool   `gorm:"column:is_published;not null;default:0;comment:是否发布;" json:"is_published"`
 	CategoryId  uint64 `gorm:"column:category_id;not null;comment:分类ID" json:"category_id"`
 	Title       string `gorm:"column:title;type:varchar(255);not null;index:idx_title;comment:文章标题;" json:"title,omitempty"`

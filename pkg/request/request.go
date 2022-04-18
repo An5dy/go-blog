@@ -1,4 +1,4 @@
-package requests
+package request
 
 import (
 	"go-blog/pkg/response"

@@ -18,7 +18,8 @@ func Connect(dbConfig gorm.Dialector, _logger gormlogger.Interface) {
 	var err error
 	// 使用 gorm.Open 连接数据库
 	DB, err = gorm.Open(dbConfig, &gorm.Config{
-		Logger: _logger, // 设置日志
+		Logger:                                   _logger, // 设置日志
+		DisableForeignKeyConstraintWhenMigrating: true,    // 禁用为关联创建外键约束
 	})
 
 	// 处理错误

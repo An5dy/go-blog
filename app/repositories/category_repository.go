@@ -8,10 +8,12 @@ import (
 )
 
 type CategoryRepository interface {
-	All() (categories []category.IndexCategory)
-	GetTree(categories []category.IndexCategory, parentId uint64) []category.TreeNode
-	Find(id int)
-	Delete(id int)
+	All() (categories []category.IndexCategory, result *gorm.DB)                      // 获取所有的分类
+	GetTree(categories []category.IndexCategory, parentId uint64) []category.TreeNode // 获取分类树
+	Create(category *category.Category) (result *gorm.DB)                             // 创建分类
+	Find(category *category.Category, id uint64) (result *gorm.DB)                    // 查询分类
+	Update(category *category.Category) (result *gorm.DB)                             // 更新分类
+	Delete(category *category.Category) (result *gorm.DB)                             // 删除分类
 }
 
 type categoryRepository struct {
@@ -24,8 +26,8 @@ func NewCategoryRepository() CategoryRepository {
 	}
 }
 
-func (cr *categoryRepository) All() (categories []category.IndexCategory) {
-	cr.db.Model(&category.Category{}).Find(&categories)
+func (cr *categoryRepository) All() (categories []category.IndexCategory, result *gorm.DB) {
+	result = cr.db.Model(&category.Category{}).Find(&categories)
 	return
 }
 
@@ -46,10 +48,18 @@ func (cr *categoryRepository) GetTree(categories []category.IndexCategory, paren
 	return treeNodes
 }
 
-func (cr *categoryRepository) Find(id int) {
-
+func (cr *categoryRepository) Create(category *category.Category) (result *gorm.DB) {
+	return cr.db.Create(category)
 }
 
-func (cr *categoryRepository) Delete(id int) {
+func (cr *categoryRepository) Find(category *category.Category, id uint64) (result *gorm.DB) {
+	return cr.db.First(category, id)
+}
 
+func (cr *categoryRepository) Update(category *category.Category) (result *gorm.DB) {
+	return cr.db.Save(category)
+}
+
+func (cr *categoryRepository) Delete(category *category.Category) (result *gorm.DB) {
+	return cr.db.Delete(category)
 }

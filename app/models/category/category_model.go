@@ -5,12 +5,14 @@ import (
 )
 
 type Category struct {
-	models.ID
+	models.PrimaryKey
 	Title    string `gorm:"column:title;type:varchar(255);not null;comment:分类标题;" json:"title"`
 	ParentId uint64 `gorm:"column:parent_id;not null;default:0;index:idx_pid;comment:父级 ID;" json:"parent_id"`
 	Level    uint8  `gorm:"column:level;not null;default:0;comment:层级;" json:"level,omitempty"`
 	Path     string `gorm:"column:path;not null;default:'-';comment:层级路径" json:"path,omitempty"`
 	models.Timestamps
+
+	Parent *Category
 }
 
 type IndexCategory struct {

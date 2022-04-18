@@ -3,6 +3,7 @@ package controllers
 import (
 	"go-blog/app/requests"
 	"go-blog/app/services"
+	"go-blog/pkg/request"
 	"go-blog/pkg/response"
 
 	"github.com/gin-gonic/gin"
@@ -19,21 +20,37 @@ func NewCategoryController() *CategoryController {
 }
 
 func (cc *CategoryController) Index(c *gin.Context) {
-	response.Data(c, cc.categoryService.GetCategoryTree())
+	categories, err := cc.categoryService.GetCategoryTree()
+	if err != nil {
+		response.Error(c, err)
+	} else {
+		response.Data(c, categories)
+	}
 }
 
 func (cc *CategoryController) Store(c *gin.Context) {
-	request := &requests.StoreCategoryRequest{}
-	if ok := requests.Validate(c, request); !ok {
+	data := &requests.StoreCategoryRequest{}
+	if ok := request.Validate(c, data); !ok {
 		return
 	}
-	response.JSON(c, request)
+	if _, ok, err := cc.categoryService.StoreCategory(data); !ok {
+		response.Error(c, err)
+	} else {
+		response.Created(c)
+	}
 }
 
 func (cc *CategoryController) Update(c *gin.Context) {
-
+	data := &requests.UpdateCategoryRequest{}
+	if ok := request.Validate(c, data); !ok {
+		return
+	}
 }
 
 func (cc *CategoryController) Delete(c *gin.Context) {
-
+	if ok, err := cc.categoryService.DeleteCategoryById(c.Param("id")); !ok {
+		response.Error(c, err)
+	} else {
+		response.Succeed(c)
+	}
 }
