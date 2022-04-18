@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go-blog/app/models/article"
 	"go-blog/app/models/category"
+	"go-blog/app/models/user"
 	"go-blog/pkg/config"
 	"go-blog/pkg/database"
 	"time"
@@ -54,5 +55,6 @@ func SetupDB() {
 	database.DB.AutoMigrate(
 		&article.Article{},
 		&category.Category{},
+		&user.User{},
 	)
 }

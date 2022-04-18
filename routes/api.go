@@ -2,6 +2,7 @@ package routes
 
 import (
 	"go-blog/app/http/controllers"
+	"go-blog/app/http/middlewares"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -16,11 +17,16 @@ func RegisterAPIRoutes(router *gin.Engine) {
 				"hello": "world!",
 			})
 		})
+		ag := v1.Group("auth")
+		{
+			ac := controllers.NewAuthController()
+			ag.POST("login", ac.Login)
+		}
 		cg := v1.Group("category")
 		{
 			cc := controllers.NewCategoryController()
 			cg.GET("", cc.Index)
-			cg.POST("", cc.Store)
+			cg.POST("", middlewares.AuthJWT(), cc.Store)
 			cg.PUT("/:id", cc.Update)
 			cg.DELETE("/:id", cc.Delete)
 		}
