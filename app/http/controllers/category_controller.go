@@ -41,10 +41,10 @@ func (cc *CategoryController) Store(c *gin.Context) {
 }
 
 func (cc *CategoryController) Update(c *gin.Context) {
-	data := &requests.UpdateCategoryRequest{}
-	if ok := request.Validate(c, data); !ok {
-		return
-	}
+	// data := &requests.UpdateCategoryRequest{}
+	// if ok := request.Validate(c, data); !ok {
+	// 	return
+	// }
 }
 
 func (cc *CategoryController) Delete(c *gin.Context) {
